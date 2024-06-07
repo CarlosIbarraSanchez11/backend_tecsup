@@ -1,15 +1,17 @@
+import os
 from flask import Flask, jsonify, request
-import bcrypt
+from utils import encrypt_password
+from config import Config
+from extensions import db, migrate
+from entities.users_model import User
 
 app = Flask(__name__)  # Crear una instancia de la aplicación Flask
+app.config.from_object(Config)
 
-users =[]
+db.init_app(app)
+migrate.init_app(app, db)
 
-def encrypt_password(password):
-    # Generar un salt(es un numero aleatorio que se genera y es concatenado al password)
-    # esto se usa por seguridad y evitar ataques de fuerza bruta
-    salt = bcrypt.gensalt()
-    return bcrypt.hashpw(password.encode('utf-8'), salt)
+# users =[] # ya no nos vamos a conectar a un array, sino a una base de datos
 
 @app.route('/')
 def home():
@@ -43,7 +45,8 @@ def home():
     #     ]
     # }
     # return jsonify(datos2)
-    return jsonify(users)
+    # return jsonify(users)
+    return jsonify([])
     # datos ={
     #     "celulares":[
     #         {
@@ -52,7 +55,7 @@ def home():
     #             "modelo": "iPhone14"
     #         },
     #         {
-    #             "id" : 2, 
+    #             "id" : 2,
     #             "marca": "Samsung",
     #             "modelo": "A34"
     #         },
@@ -75,12 +78,14 @@ def create_user():
     # user_data['password'] = encrypt_password(request.get_data('password'))
     user_data['password'] = encrypt_password(user_data.get('password')).decode('utf-8')
     # print(user_data)
-    users.append(user_data)
+    # users.append(user_data)
     return jsonify({
         "new_user": user_data
     })
 
 if __name__ == '__main__':
+    # with app.app_context():
+    db.create_all()
     app.run(port=5000, debug=True)  # Ejecutar la aplicación en modo de depuración
 
-# 02:00:34
+# 02:28:32
