@@ -15,68 +15,65 @@ migrate.init_app(app, db)
 
 @app.route('/')
 def home():
-    # datos2 = {
-    #     "carros": [
-    #         {
-    #             "id": 1,
-    #             "marca": "Toyota",
-    #             "modelo": "Corolla"
-    #         },
-    #         {
-    #             "id": 2,
-    #             "marca": "Honda",
-    #             "modelo": "Civic"
-    #         },
-    #         {
-    #             "id": 3,
-    #             "marca": "Ford",
-    #             "modelo": "Mustang"
-    #         },
-    #         {
-    #             "id": 4,
-    #             "marca": "Chevrolet",
-    #             "modelo": "Camaro"
-    #         },
-    #         {
-    #             "id": 5,
-    #             "marca": "BMW",
-    #             "modelo": "M3"
-    #         }
-    #     ]
-    # }
-    # return jsonify(datos2)
-    # return jsonify(users)
     return jsonify([])
-    # datos ={
-    #     "celulares":[
-    #         {
-    #             "id" : 1,
-    #             "marca": "apple",
-    #             "modelo": "iPhone14"
-    #         },
-    #         {
-    #             "id" : 2,
-    #             "marca": "Samsung",
-    #             "modelo": "A34"
-    #         },
-    #         {
-    #             "id" : 3,
-    #             "marca": "Redmi",
-    #             "modelo": "Nova 11"
-    #         }
-    #     ]
-    # }
 
-    # return jsonify(datos)
-    # return jsonify({
-    #     "message" : "Hola mundo desde Flask"
-    # })
-    #return "Hola mundo desde Flask"  # Definir la función para la ruta raíz
+# Get
+@app.route('/api/v1/user')
+def get_all_users():
+    try:
+        users = User.query.all()
+        dic_users = []
+        for user in users:
+            dic_users.append(user.to_dic())
+        return jsonify({
+            'users': dic_users
+        })
+    except Exception as e:
+        return jsonify({
+            "error" : e,
+            "linea" : e.__traceback__.tb_lineno
+        }), 500
+# Get by user id
+@app.route('/api/v1/user/<int: user_id>')
+def get_user_by_id(user_id):
+    try:
+        # Buscamos al usuario por el Id
+        user = User.query.get(user_id)
+        if user is None:
+            return jsonify({
+                "message" : "user not found"
+            })
+        return jsonify({
+            "user": user.to_dic()
+        })
+    except Exception as e:
+        return jsonify({
+            "error": e,
+            "linea": e.__traceback__.tb_lineno
+        }),500
+
+# Post
 @app.route('/api/v1/user', methods=['POST'])
 def create_user():
     user_data = request.get_json()
     # user_data['password'] = encrypt_password(request.get_data('password'))
     user_data['password'] = encrypt_password(user_data.get('password')).decode('utf-8')
+
+    new_user = User(
+        full_name = f"{user_data.get('name')} {user_data.get('lastname')}",
+        email = user_data.get('email') ,
+        password = user_data.get('password'), 
+        phoneNumber = user_data.get('phone_number'),
+        genre = user_data.get('genre')
+        # full_name = "Carlos",
+        # email = "carlos@gmail.com" ,
+        # password = "123456", 
+        # phoneNumber = "921872052",
+        # genre = "Male"
+    )
+
+    db.session.add(new_user)
+    db.session.commit()
     # print(user_data)
     # users.append(user_data)
     return jsonify({
@@ -84,8 +81,7 @@ def create_user():
     })
 
 if __name__ == '__main__':
-    # with app.app_context():
-    db.create_all()
+    with app.app_context(): # Necesario para que el sqlAlchemy acceda a la base de datos
+        db.create_all()
     app.run(port=5000, debug=True)  # Ejecutar la aplicación en modo de depuración
 
-# 02:28:32
