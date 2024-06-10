@@ -20,3 +20,5 @@ def get_all_products():
         return jsonify({
             "error": e
         }), 500
+    
+    # 03:01:52
