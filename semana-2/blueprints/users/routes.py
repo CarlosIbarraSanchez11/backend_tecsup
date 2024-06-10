@@ -22,15 +22,15 @@ def get_all_users():
             "linea" : e.__traceback__.tb_lineno
         }), 500
 
-# Get user by Id
-@users_bp.route('/api/v1/user/<int: user_id>')
+# GET by user id
+@users_bp.route('/api/v1/user/<int:user_id>')
 def get_user_by_id(user_id):
     try:
-        # Buscamos al usuario por el Id
+        # buscamos al usuario por id
         user = User.query.get(user_id)
         if user is None:
             return jsonify({
-                "message" : "user not found"
+                "message": "user not found"
             })
         return jsonify({
             "user": user.to_dic()
@@ -39,7 +39,7 @@ def get_user_by_id(user_id):
         return jsonify({
             "error": e,
             "linea": e.__traceback__.tb_lineno
-        }),500
+        }), 500
     
 # POST -> Create an user
 @users_bp.route('/api/v1/user', methods=['POST'])

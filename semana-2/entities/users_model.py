@@ -29,5 +29,7 @@ class User(db.Model):
             'email': self.email,
             'password': self.password,
             'phoneNumber': self.phoneNumber,
-            'genre': self.genre
+            'genre': self.genre,
+            'created_at' : self.created_at,
+            'updated_at' : self.updated_at,
         }
