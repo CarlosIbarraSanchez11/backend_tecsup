@@ -19,7 +19,7 @@ class Base(DeclarativeBase):
 class Product(db.Model):
     __tablename__ = "products"
 
-    iid = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=True)
     description = db.Column(db.String(255), unique=True, nullable=False)
     price = db.Column(db.Float, nullable=False)
