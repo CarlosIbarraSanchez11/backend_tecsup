@@ -21,4 +21,28 @@ def get_all_products():
             "error": e
         }), 500
     
-    # 03:01:52
+# POST -> Create an user
+@products_bp.route('/api/v1/product', methods=['POST'])
+def create_product():
+    try:
+        product_data = request.get_json()
+        new_product = Product(
+            name=product_data['name'],
+            description=product_data['description'],
+            price=product_data['price'],
+            stock=product_data['stock']
+        )
+
+        db.session.add(new_product)
+        db.session.commit()
+        # print(new_product.to_dict())
+
+        return jsonify({
+            "message": new_product.to_dict()
+        }), 201
+
+    except Exception as e:
+        return jsonify({
+            "error": e
+        }), 500
+
