@@ -1,6 +1,16 @@
-from django.urls import path
-from .views import get_products
+# from django.urls import path
+# from .views import get_products
 
-urlpatterns = [
-    path('products/', get_products, name='products_list')
-]
+
+# _____
+# importar nuestra clase viewset
+from .views import ProductViewSet
+# importar el router de DRF (Django Rest Framework)
+from rest_framework.routers import DefaultRouter
+
+# crear una instancia de DefaultRouter
+router = DefaultRouter()
+# agregar una ruta usando router
+router.register(r'products', ProductViewSet)
+
+urlpatterns = router.urls
