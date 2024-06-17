@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product
+from .models import Product, Category
 
 class ProductAdmin(admin.ModelAdmin):
     # Permite crear una tupla con los campos que queremos mostrar en el admin
@@ -7,4 +7,5 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('category',)
 
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Category)
 # Register your models here.

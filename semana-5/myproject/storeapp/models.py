@@ -8,6 +8,9 @@ class Category(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
 
+    ## Muesta el nombre de la categoria en el main web
+    def __str__(self) -> str:
+        return f"{self.id} {self.nombre}"
     class Meta:
         db_table = 'categories'
 

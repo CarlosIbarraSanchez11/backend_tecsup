@@ -32,12 +32,16 @@
 
 
 # -----------------------------
-from .models import Product  # model
-from .serializers import ProductSerializer  # serializer
+from .models import Product, Category  # model
+from .serializers import ProductSerializer, CategorySerializer  # serializer
 # la clase de rest framework que permite crear un CRUD
 from rest_framework.viewsets import ModelViewSet
-
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+# Viewer Category, se va a visualizar nuestro CRUD
+class CategoryViewSet(ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
