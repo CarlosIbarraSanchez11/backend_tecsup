@@ -1,0 +1,16 @@
+dbdiagram -> para diagramar las tablas
+
+python -m venv env
+env/Scripts/activate
+pip install django
+django-admin startproject todo_list_api . -> crea nuestro proyecto de django <todo_list_api .> el punto es para q no se cree
+en otra carpeta. podemos cambiar de nombre
+python manage.py runserver -> correr nuestro proyecto
+python manage.py startapp tasks -> creamos nuestras aplicacions <tasks> puedes cambiar
+
+creamos nuestro modelo en models.py
+
+python manage.py makemigrations
+python manage.py migrate
+
+winpty python manage.py createsuperuser
