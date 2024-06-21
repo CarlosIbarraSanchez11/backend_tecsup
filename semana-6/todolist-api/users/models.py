@@ -12,3 +12,6 @@ class User(models.Model):
 
     class Meta:
         db_table = 'users'
+
+    def __str__(self) -> str:
+        return f"{self.name} {self.lastname}"
