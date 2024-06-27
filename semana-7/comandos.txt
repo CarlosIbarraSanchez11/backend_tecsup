@@ -1,0 +1,10 @@
+python -m venv env <env -> nombre del entorno>
+source env/Scripts/activate
+pip install django
+django-admin startproject authentication_api. <authentication_api . -> se coloca cero para crear en la misma pagina>
+pip install psycopg2 -> instalamos para postgress
+python manage.py migrate
+winpty python manage.py createsuperuser
+pip install djangorestframework
+pip install djangorestframework-simplejwt
+python manage.py startapp authentication -> <authentication se puede cambiar>

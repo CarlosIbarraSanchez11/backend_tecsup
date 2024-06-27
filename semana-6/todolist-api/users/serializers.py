@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password
 
 ## Verificar que los campos que estamos recibiendo solo sean el email y password
 class UserLoginSerializer(Serializer):
-    email = EmailField(required=True)
+    email = EmailField(required=True) 
     password = CharField(required=True)
 
 
